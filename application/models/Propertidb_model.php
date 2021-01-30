@@ -1,11 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Properti_model extends CI_Model
+class Propertidb_model extends CI_Model
 {
     private $_table = "properti";
     private $_table2 = "image";
-
-
     public $ID_P;
     public $NAMA_P;
     public $ALAMAT;
@@ -121,54 +119,7 @@ class Properti_model extends CI_Model
         ];
     }
 
-    public function getAll($that = null)
-    {
-        $response = array();
-        if (!empty($that)) {
-            $this->db->select('*');
-            $this->db->like('ID_P', $that, 'both');
-            return $this->db->get('properti')->result();
-        }
-        $this->db->order_by('input_date', 'asc');
-        $response = $this->db->get('properti')->result();
-        return $response;
-    }
-
-    public function getNoImage()
-    {
-        $this->db->select('ID_P, NAMA_P, HARGA, DESKRIPSI, ALAMAT, LATITUDE, LONGITUDE, TIPE');
-        return $this->db->get('properti')->result();
-    }
-
-    public function getImageDecoded()
-    {
-        return $this->db->get('properti')->result();
-    }
-
-
-    public function getPagination($that = null, $limit, $start)
-    {
-        $response = array();
-        if (!empty($that)) {
-            $this->db->select('*');
-            $this->db->like('ID_P', $that, 'both');
-            $this->db->order_by('input_date', 'desc');
-            return $this->db->get('properti', $limit, $start)->result();
-        }
-        $this->db->order_by('input_date', 'desc');
-        $response = $this->db->get('properti', $limit, $start)->result();
-        return $response;
-    }
-
-    public function getById($ID_P)
-    {
-        return $this->db->get_where($this->_table, ["ID_P" => $ID_P])->row();
-    }
-
-    public function getImage($ID_P)
-    {
-        return $this->db->get_where($this->_table2, ["P_Img" => $ID_P])->row();
-    }
+  
         public function save($dataimg = NULL)
     {
         $post = $this->input->post();

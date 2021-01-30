@@ -31,8 +31,9 @@ background: #fff;}
 					<?php } ?>
 					<?php if ($this->session->flashdata('failed')) { ?>
 						<?php
+						echo "<div class='alert alert-danger'>";
+						echo "<strong>Gagal<br></strong>";
 						echo $this->session->flashdata('failed');
-						echo "<strong>Gagal</strong>";
 						echo "</div>";
 						?>
 					<?php } ?>

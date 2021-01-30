@@ -62,25 +62,12 @@
    <?php if ($pagination) : ?>
         <div class="row">
             <div class="col">
-                <!--Tampilkan pagination-->
+
                 <?php echo $pagination; ?>
             </div>
         </div>
     <?php endif; ?>
 	</div>
-<!-- <div id="map"></div> -->
+
 </body>
 </html>
-<!-- <script>
-	mapboxgl.accessToken = 'pk.eyJ1IjoiZHVzdHlsYXpsbyIsImEiOiJja2ozdmJzZXEyY2Z4MnBucjNtejNlaGVkIn0.3pSQgGuODsLS1PhQCKSySA';
-	var map = new mapboxgl.Map({
-		container: 'map', // container id
-		style: 'mapbox://styles/mapbox/streets-v11', // style URL
-		center:[107.533867, -6.899541],
-		zoom:11
-	});
-	var marker = new mapboxgl.Marker()
-		.setLngLat([107.533867, -6.899541])
-		.addTo(map);
-
-</script> -->

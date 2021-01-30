@@ -1,11 +1,10 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Properti_model extends CI_Model
+class Bangunandb_model extends Propertidb_model
 {
     private $_table = "properti";
     private $_table2 = "image";
-
-
+    private $_table3 = "detail";
     public $ID_P;
     public $NAMA_P;
     public $ALAMAT;
@@ -29,12 +28,6 @@ class Properti_model extends CI_Model
             [
                 'field' => 'almt',
                 'label' => 'alamat properti',
-                'rules' => 'required'
-            ],
-
-            [
-                'field' => 'type',
-                'label' => 'tipe properti',
                 'rules' => 'required'
             ],
 
@@ -86,12 +79,6 @@ class Properti_model extends CI_Model
             ],
 
             [
-                'field' => 'type',
-                'label' => 'tipe properti',
-                'rules' => 'required'
-            ],
-
-            [
                 'field' => 'size',
                 'label' => 'luas',
                 'rules' => 'required'
@@ -121,55 +108,8 @@ class Properti_model extends CI_Model
         ];
     }
 
-    public function getAll($that = null)
-    {
-        $response = array();
-        if (!empty($that)) {
-            $this->db->select('*');
-            $this->db->like('ID_P', $that, 'both');
-            return $this->db->get('properti')->result();
-        }
-        $this->db->order_by('input_date', 'asc');
-        $response = $this->db->get('properti')->result();
-        return $response;
-    }
-
-    public function getNoImage()
-    {
-        $this->db->select('ID_P, NAMA_P, HARGA, DESKRIPSI, ALAMAT, LATITUDE, LONGITUDE, TIPE');
-        return $this->db->get('properti')->result();
-    }
-
-    public function getImageDecoded()
-    {
-        return $this->db->get('properti')->result();
-    }
-
-
-    public function getPagination($that = null, $limit, $start)
-    {
-        $response = array();
-        if (!empty($that)) {
-            $this->db->select('*');
-            $this->db->like('ID_P', $that, 'both');
-            $this->db->order_by('input_date', 'desc');
-            return $this->db->get('properti', $limit, $start)->result();
-        }
-        $this->db->order_by('input_date', 'desc');
-        $response = $this->db->get('properti', $limit, $start)->result();
-        return $response;
-    }
-
-    public function getById($ID_P)
-    {
-        return $this->db->get_where($this->_table, ["ID_P" => $ID_P])->row();
-    }
-
-    public function getImage($ID_P)
-    {
-        return $this->db->get_where($this->_table2, ["P_Img" => $ID_P])->row();
-    }
-        public function save($dataimg = NULL)
+  
+    public function save($dataimg = NULL)
     {
         $post = $this->input->post();
         $image = addslashes(file_get_contents($_FILES['pict']['tmp_name']));
@@ -181,11 +121,12 @@ class Properti_model extends CI_Model
         $this->ALAMAT = $post["almt"];
         $this->LATITUDE = $post["lat"];
         $this->LONGITUDE = $post["long"];
-        $this->TIPE = $post["type"];
+        $this->TIPE = 'tanah';
         $this->LUAS = $post["size"];
         $this->DESKRIPSI = $post["desk"];
         $this->input_date = date("Y-m-d h:i:s");
         return $this->db->insert($this->_table, $this);
+        // TODO  insert ke db untuk detail bangunan (tinggi, kamar, toilet, dll)
     }
     public function update()
     {
@@ -195,21 +136,23 @@ class Properti_model extends CI_Model
         $this->HARGA = $post["price"];
         $this->ALAMAT = $post["almt"];
         $this->DESKRIPSI = $post["desk"];
-        $this->TIPE = $post["type"];
+        $this->TIPE = 'tanah';
         $this->LUAS = $post["size"];
         $this->LATITUDE = $post["lat"];
         $this->LONGITUDE = $post["long"];
         if(file_get_contents($_FILES['pict2']['tmp_name'])){
             $image = addslashes(file_get_contents($_FILES['pict2']['tmp_name']));
             $this->IMG = $image;
+        // TODO  update ke db untuk detail bangunan (tinggi, kamar, toilet, dll)
+
         }
         return $this->db->update($this->_table, $this, array('ID_P' => $post['id_prop']));
     }
 
     public function delete($id_p)
     {
-
         return $this->db->delete($this->_table, array("ID_P" => $id_p));
+        // TODO  delete db untuk detail bangunan (tinggi, kamar, toilet, dll)
     }
 
 }
